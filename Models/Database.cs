@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFGetStarted
+namespace BodybuildingManager.Models.Database
 {
     public class DatabaseContext : DbContext
     {
@@ -29,7 +29,8 @@ namespace EFGetStarted
 
     public class Programme
     {
-        public DateTime DateDebut { get; set; }
+        public Guid Id { get; set; }
+        public DateTime? DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
 
         public List<Seance>? Seances { get; set; }
@@ -37,12 +38,16 @@ namespace EFGetStarted
 
     public class Seance
     {
+        public Guid Id { get; set; }
         public string Nom { get; set; } = "";
         public List<ExerciceSeance>? Exercices { get; set; }
     }
 
     public class ExerciceSeance
     {
+        public Guid Id {get;set;}
+        public Exercice? Exercice { get; set; }
+        public Seance? Seance { get; set; }
         public int Position { get; set; }
         public int NombreSerie { get; set; }
         public int NombreRepetition { get; set; }
@@ -51,11 +56,13 @@ namespace EFGetStarted
 
     public class Exercice
     {
+        public Guid Id { get; set; }
         public String Nom { get; set; } = "";
     }
 
     public class Compte
     {
+        public Guid Id { get; set; }
         public String Email { get; set; } = "";
         public String MotDePasse { get; set; } = "";
         public Programme? ProgrammeActuel { get; set; } = null;

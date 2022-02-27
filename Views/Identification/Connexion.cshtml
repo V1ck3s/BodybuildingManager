@@ -1,0 +1,46 @@
+﻿@model BodybuildingManager.Lib.ObjetMetier.Compte;
+@{
+    ViewData["Title"] = "Connexion";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Connexion</h1>
+    @if (string.IsNullOrEmpty(ViewBag.Message) == false)
+    {
+        <div>
+            @ViewBag.Message
+        </div>
+    }
+    <p>Veuillez vous connecter pour pouvoir utiliser BodybuildingManager :</p>
+</div>
+<center>
+    @using (Html.BeginForm("Connexion", "Identification", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div>
+            <div class="usernametb">
+                @Html.LabelFor(m => m.Email,"E-mail :")
+            </div>
+            <div class="usernametb">
+                @Html.TextBoxFor(m => m.Email, new { style = "width:250px" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+        <br>
+        <div class="clear"></div>
+        <div>
+            <div class="pwtb">
+                @Html.LabelFor(m => m.MotDePasse,"Mot de passe :")
+            </div>
+            <div class="pwtb">
+                @Html.PasswordFor(m => m.MotDePasse, new { style = "width:250px" })
+                @Html.ValidationMessageFor(m => m.MotDePasse)
+            </div>
+        </div>
+        <div class="clear"></div>
+        <br>
+        <div><input class="loginbutton" type="submit" value="Connexion" /></div>
+
+    }
+</center>

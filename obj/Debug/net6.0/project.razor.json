@@ -16303,6 +16303,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "/home/victor/Fichiers/Projets/BodybuildingManager/Views/Identification/Connexion.cshtml",
+      "TargetPath": "Views\\Identification\\Connexion.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/home/victor/Fichiers/Projets/BodybuildingManager/Views/Shared/_ValidationScriptsPartial.cshtml",
       "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
@@ -16325,6 +16330,11 @@
     {
       "FilePath": "/home/victor/Fichiers/Projets/BodybuildingManager/Views/Home/Privacy.cshtml",
       "TargetPath": "Views\\Home\\Privacy.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/home/victor/Fichiers/Projets/BodybuildingManager/Views/Identification/Inscription.cshtml",
+      "TargetPath": "Views\\Identification\\Inscription.cshtml",
       "FileKind": "mvc"
     },
     {

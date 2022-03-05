@@ -1,0 +1,14 @@
+@model BodybuildingManager.Models.Database.Compte;
+@{
+    ViewData["Title"] = "Mon Compte";
+}
+<div class="text-center">
+    <h1 class="display-4">Mon compte :</h1>
+    <p>Email / Nom de compte : @Model.Email</p>
+    <p>Id du compte : @Model.Id</p>
+    <p>Date de début du programme actuel : @Model.ProgrammeActuel?.DateDebut.ToString()</p>
+    @using (Html.BeginForm("Deconnexion", "Identification", FormMethod.Get))
+    {
+        <input type="submit" name="submit" value="Se déconnecter" />
+    }
+</div>

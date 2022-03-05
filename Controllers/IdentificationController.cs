@@ -9,12 +9,34 @@ public class IdentificationController : Controller
 {
     public IActionResult Connexion()
     {
+        ViewBag.Message = TempData["message"];
         return View();
+    }
+
+    public IActionResult Deconnexion()
+    {
+        Response.Cookies.Delete("PseudoConnecte");
+        return RedirectToAction("Connexion", "Identification");
     }
 
     public IActionResult Inscription()
     {
         return View();
+    }
+    public IActionResult Compte()
+    {
+        if (String.IsNullOrEmpty(Request.Cookies["PseudoConnecte"]))
+        {
+            return RedirectToAction("Connexion", "Identification");
+        }
+        Compte? compte = null;
+        using (var db = new DatabaseContext())
+        {
+            compte = db.Comptes
+                .Where(b => b.Email == Request.Cookies["PseudoConnecte"])
+                .ToList().FirstOrDefault();
+        }
+        return View(compte);
     }
 
     [HttpPost]
@@ -25,15 +47,18 @@ public class IdentificationController : Controller
             Compte? compte = db.Comptes
                 .Where(b => b.Email == email && b.MotDePasse == motdepasse)
                 .ToList().FirstOrDefault();
-                
+
             if (compte == null)
             { // Echec de connexion
-                ViewBag.Message = "Erreur lors de la connexion, l'e-mail ou le mot de passe est incorrecte.";
+                TempData["message"] = "Erreur lors de la connexion, l'e-mail ou le mot de passe est incorrecte.";
                 return View();
             }
             else
             { // Connexion réussie
-                return RedirectToAction("Index","Home");
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddYears(1);
+                Response.Cookies.Append("PseudoConnecte", email, option);
+                return RedirectToAction("Compte", "Identification");
             }
         }
     }
@@ -46,7 +71,7 @@ public class IdentificationController : Controller
             db.Comptes.Add(compte);
             db.SaveChanges();
         }
-        ViewBag.Message = "Inscription réussie, veuillez vous connecter.";
-        return RedirectToAction("Connexion","Identification");
+        TempData["message"] = "Inscription réussie, veuillez vous connecter.";
+        return RedirectToAction("Connexion", "Identification");
     }
 }

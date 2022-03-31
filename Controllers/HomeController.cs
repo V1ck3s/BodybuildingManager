@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BodybuildingManager.Models;
+using BodybuildingManager.Models.Database;
 
 namespace BodybuildingManager.Controllers;
 
@@ -18,11 +19,71 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult Poids()
     {
-        return View();
+        Lib.ObjetVue.ObjetPoids PoidsUtilisateur = new Lib.ObjetVue.ObjetPoids();
+        
+        string pseudo = Request.Cookies["PseudoConnecte"].ToString();
+
+        using (var db = new DatabaseContext())
+        {
+            Compte? compte = db.Comptes
+                .Where(b => b.Email == pseudo)
+                .ToList().FirstOrDefault();
+
+            if (compte == null)
+            { // Compte non trouvé
+                TempData["message"] = "Erreur lors de l'affichage de la page des poids, le compte n'a pas pu être trouvé.";
+                return View();
+            }
+            else
+            { // Compte trouvé
+                
+                PoidsUtilisateur.ListePoids = compte.PoidsCompte;
+
+                
+            }
+        }
+
+        return View(PoidsUtilisateur);
     }
 
+    [HttpPost]
+    public ActionResult PeseePoids(float? poidsKilo, DateTime? datePesee)
+    {
+        if (poidsKilo is null || datePesee is null)
+        {
+            return RedirectToAction("Poids");
+        }
+
+        if (String.IsNullOrEmpty(Request.Cookies["PseudoConnecte"]))
+        {
+            return RedirectToAction("Connexion", "Identification");
+        }
+
+        string pseudo = Request.Cookies["PseudoConnecte"].ToString();
+
+        using (var db = new DatabaseContext())
+        {
+            Compte? compte = db.Comptes
+                .Where(b => b.Email == pseudo)
+                .ToList().FirstOrDefault();
+
+            if (compte == null)
+            { // Compte non trouvé
+                TempData["message"] = "Erreur lors de l'ajout d'une pesée, le compte n'a pas été trouvé.";
+                return RedirectToAction("Poids");
+            }
+            else
+            { // Compte trouvé
+                Poids poids = new Poids();
+                poids.DatePoids = (DateTime)datePesee;
+                poids.Kilogramme = (float)poidsKilo;
+                compte.PoidsCompte.Add(poids);
+                return RedirectToAction("Poids");
+            }
+        }
+    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

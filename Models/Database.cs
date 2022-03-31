@@ -67,5 +67,11 @@ namespace BodybuildingManager.Models.Database
         public String MotDePasse { get; set; } = "";
         public Programme? ProgrammeActuel { get; set; } = null;
         public List<Programme> ProgrammeAnciens { get; set; } = new List<Programme>();
+        public List<Poids> PoidsCompte {get;set;} = new List<Poids>();
+    }
+    public class Poids{
+        public Guid Id {get;set;} = Guid.NewGuid();
+        public float Kilogramme {get;set;}
+        public DateTime DatePoids {get;set;}
     }
 }

@@ -1,0 +1,38 @@
+﻿@model BodybuildingManager.Lib.ObjetVue.ObjetPoids
+@{
+    ViewData["Title"] = "Suivis du poids";
+}
+<center>
+<h1>@ViewData["Title"]</h1>
+
+<p>Veuillez indiquer votre poids et la date si le poids correspond à une autre date que maintenant :</p>
+@using (Html.BeginForm("PeseePoids", "Home", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div>
+    <div class="poidstb">
+        @Html.LabelFor(m => m.PoidsMaintenant.Kilogramme,"Poids (en Kg) :")
+    </div>
+    <div class="poidstb">
+        @Html.TextBox("poidsKilo",Model.PoidsMaintenant.Kilogramme, new { id="poidsKilo",@type = "number",style = "width:100px", step="0.01" }) Kg
+        @Html.ValidationMessageFor(m => m.PoidsMaintenant.Kilogramme)
+    </div>
+</div>
+    <br>
+    <div class="clear"></div>
+    <div>
+    <div class="datetb">
+        @Html.LabelFor(m => m.PoidsMaintenant.DatePoids,"Date de la pesée :")
+    </div>
+    <div class="datetb">
+        @Html.TextBox("datePesee",Model.DateMaintenant, "{0:yyyy-MM-ddTHH:mm:ss}", new{id="datePesee",@type="datetime-local"})
+        @Html.ValidationMessageFor(m => m.PoidsMaintenant.DatePoids)
+    </div>
+</div>
+    <div class="clear"></div>
+    <br>
+    <div><input class="postbutton" type="submit" value="Ajouter" /></div>
+}
+</center>

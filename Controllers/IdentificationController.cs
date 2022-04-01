@@ -25,18 +25,16 @@ public class IdentificationController : Controller
     }
     public IActionResult Compte()
     {
-        if (String.IsNullOrEmpty(Request.Cookies["PseudoConnecte"]))
+        Compte? compte = Utils.CompteUtils.CompteParPseudo(Request.Cookies["PseudoConnecte"]);
+        if(compte == null)
         {
+            TempData["message"] = "Erreur lors de l'affichage de la page du compte, le compte n'a pas pu être trouvé, veuillez vous reconnecter.";
             return RedirectToAction("Connexion", "Identification");
         }
-        Compte? compte = null;
-        using (var db = new DatabaseContext())
+        else
         {
-            compte = db.Comptes
-                .Where(b => b.Email == Request.Cookies["PseudoConnecte"])
-                .ToList().FirstOrDefault();
+            return View(compte);
         }
-        return View(compte);
     }
 
     [HttpPost]

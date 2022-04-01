@@ -55,8 +55,7 @@
             @poids.DatePoids.ToString("dd/MM/yyyy HH:mm")
         </td>
         <td>
-            @Html.ActionLink("Modifier", "Edit", new { id=poids.Kilogramme }) |
-            @Html.ActionLink("Supprimer", "Details", new { id=poids.Kilogramme })
+            @Html.ActionLink("Supprimer", "SupprimerPoids", new { idPoids=poids.Id })
         </td>
     </tr>
 }

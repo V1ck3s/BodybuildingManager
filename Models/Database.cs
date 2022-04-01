@@ -12,6 +12,7 @@ namespace BodybuildingManager.Models.Database
         public DbSet<ExerciceSeance> ExerciceSeances { get; set; }
         public DbSet<Exercice> Exercices { get; set; }
         public DbSet<Compte> Comptes { get; set; }
+        public DbSet<Poids> Poids { get; set; }
 
         public string DbPath { get; }
 

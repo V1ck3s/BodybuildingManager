@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace BodybuildingManager.Models.Database
@@ -62,6 +63,7 @@ namespace BodybuildingManager.Models.Database
 
     public class Compte
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public String Email { get; set; } = "";
         public String MotDePasse { get; set; } = "";
@@ -70,6 +72,7 @@ namespace BodybuildingManager.Models.Database
         public List<Poids> PoidsCompte {get;set;} = new List<Poids>();
     }
     public class Poids{
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id {get;set;} = Guid.NewGuid();
         public float Kilogramme {get;set;}
         public DateTime DatePoids {get;set;}

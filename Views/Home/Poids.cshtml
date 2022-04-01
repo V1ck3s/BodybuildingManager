@@ -35,4 +35,30 @@
     <br>
     <div><input class="postbutton" type="submit" value="Ajouter" /></div>
 }
+
+<br>
+<br>
+
+<table class="table">
+    <tr>
+        <th>Poids</th>
+        <th>Date</th>
+        <th>Action</th>
+    </tr>
+
+@foreach (BodybuildingManager.Models.Database.Poids poids in Model.ListePoids.OrderByDescending(p => p.DatePoids)) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => poids.Kilogramme)Kg
+        </td>
+        <td>
+            @poids.DatePoids.ToString("dd/MM/yyyy HH:mm")
+        </td>
+        <td>
+            @Html.ActionLink("Modifier", "Edit", new { id=poids.Kilogramme }) |
+            @Html.ActionLink("Supprimer", "Details", new { id=poids.Kilogramme })
+        </td>
+    </tr>
+}
+</table>
 </center>

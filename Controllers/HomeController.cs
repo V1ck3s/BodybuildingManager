@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BodybuildingManager.Models;
 using BodybuildingManager.Models.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace BodybuildingManager.Controllers;
 
@@ -27,10 +28,9 @@ public class HomeController : Controller
 
         using (var db = new DatabaseContext())
         {
-            Compte? compte = db.Comptes
-                .Where(b => b.Email == pseudo)
-                .ToList().FirstOrDefault();
-
+            Compte? compte = db.Comptes.Include(x=>x.PoidsCompte).FirstOrDefault(c => c.Email == pseudo);
+            //db.Entry(compte).Reference(c => c.PoidsCompte).Load();
+            //db.Entry(compte).Collection(c => c.PoidsCompte).Load();
             if (compte == null)
             { // Compte non trouvé
                 TempData["message"] = "Erreur lors de l'affichage de la page des poids, le compte n'a pas pu être trouvé.";
@@ -80,6 +80,8 @@ public class HomeController : Controller
                 poids.DatePoids = (DateTime)datePesee;
                 poids.Kilogramme = (float)poidsKilo;
                 compte.PoidsCompte.Add(poids);
+                //db.Comptes.Find(compte.Id).PoidsCompte.Add(poids);
+                db.SaveChanges();
                 return RedirectToAction("Poids");
             }
         }

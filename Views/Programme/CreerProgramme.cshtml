@@ -1,0 +1,56 @@
+@model BodybuildingManager.Models.Database.Programme
+@{
+    ViewData["Title"] = "Création d'un programme";
+}
+
+<center>
+
+    <h1>@ViewData["Title"]</h1>
+
+    @using (Html.BeginForm("CreerProgramme", "Programme", FormMethod.Post)){
+        <p>Nom du programme :</p>
+        @Html.TextBox("programmeNom", value:"", htmlAttributes: new { required = true })
+        <br>
+        <p>Date de début :</p>
+        @Html.TextBox("programmeDateDebut",value:DateTime.Now.ToString("yyyy-MM-dd"), htmlAttributes: new { @type = "date", required=true })
+        <br>
+        <p>Date de fin :</p>
+        @Html.TextBox("programmeDateFin", value:DateTime.Now.ToString("yyyy-MM-dd") ,htmlAttributes: new { @type = "date" })
+        <br>
+        <div>Est-ce un programme actuel ? : @Html.CheckBox("programmeActuel", "false")</div>
+        
+        <br>
+        <br>
+
+        <div>
+            <input class="createButton" type="submit" value="Créer" />
+        </div>
+    }
+
+
+    <h2>Séances du programme :</h2>
+
+    <table class="table">
+        <tr>
+            <th>Nom de la séance</th>
+            <th>Actions</th>
+        </tr>
+    @{
+        if(Model?.Seances != null)
+        {
+            foreach (BodybuildingManager.Models.Database.Seance seance in Model.Seances) 
+            {
+                <tr>
+                    <td>
+                        @seance.Nom
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            }
+        }
+
+    }
+
+</center>

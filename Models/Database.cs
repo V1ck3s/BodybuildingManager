@@ -31,15 +31,19 @@ namespace BodybuildingManager.Models.Database
 
     public class Programme
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public DateTime? DateDebut { get; set; }
         public DateTime? DateFin { get; set; }
+        public string Nom { get; set; }
+        public bool EstActif { get; set; }
 
         public List<Seance>? Seances { get; set; }
     }
 
     public class Seance
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public string Nom { get; set; } = "";
         public List<ExerciceSeance>? Exercices { get; set; }
@@ -47,6 +51,7 @@ namespace BodybuildingManager.Models.Database
 
     public class ExerciceSeance
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id {get;set;}
         public Exercice? Exercice { get; set; }
         public Seance? Seance { get; set; }
@@ -58,6 +63,7 @@ namespace BodybuildingManager.Models.Database
 
     public class Exercice
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
         public String Nom { get; set; } = "";
     }
@@ -68,8 +74,7 @@ namespace BodybuildingManager.Models.Database
         public Guid Id { get; set; }
         public String Email { get; set; } = "";
         public String MotDePasse { get; set; } = "";
-        public Programme? ProgrammeActuel { get; set; } = null;
-        public List<Programme> ProgrammeAnciens { get; set; } = new List<Programme>();
+        public List<Programme> Programmes { get; set; } = new List<Programme>();
         public List<Poids> PoidsCompte {get;set;} = new List<Poids>();
     }
     public class Poids{

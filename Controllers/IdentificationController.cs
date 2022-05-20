@@ -65,7 +65,7 @@ public class IdentificationController : Controller
     {
         using (var db = new DatabaseContext())
         {
-            Compte compte = new Compte { Id = Guid.NewGuid(), Email = email, MotDePasse = motdepasse, ProgrammeActuel = null, ProgrammeAnciens = new List<Programme>() };
+            Compte compte = new Compte { Id = Guid.NewGuid(), Email = email, MotDePasse = motdepasse, Programmes = new List<Programme>() };
             db.Comptes.Add(compte);
             db.SaveChanges();
         }

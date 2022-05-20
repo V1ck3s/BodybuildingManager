@@ -1,0 +1,75 @@
+﻿@model BodybuildingManager.Lib.ObjetVue.ObjetProgramme
+@{
+    ViewData["Title"] = "Programme";
+}
+<center>
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <input type="button" value="Créer un programme" onclick="@("window.location.href='" + @Url.Action("CreerProgramme", "Programme") + "'");" />
+</div>
+
+
+<p>Programme actif :</p>
+<div>
+    @(Model?.ListeProgramme?.FirstOrDefault(x => x.EstActif == true)?.Nom ?? "Aucun programme actif")
+</div>
+
+<br>
+
+<p>Anciens programme :</p>
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Date de commencement</th>
+        <th>Date de fin</th>
+        <th>Nombre de séance</th>
+        <th>Actions</th>
+    </tr>
+
+@{
+    if(Model.ListeProgramme != null)
+    {
+        foreach (BodybuildingManager.Models.Database.Programme programme in Model.ListeProgramme.OrderByDescending(x => x.DateDebut)) 
+        {
+            <tr>
+                <td>@programme.Nom</td>
+                <td>
+                    @{
+                        if(programme.DateDebut != null)
+                        {
+                            @programme.DateDebut.Value.ToShortDateString();
+                        }
+                    }
+                    
+                </td>
+                <td>
+                    @{
+                        if(programme.DateFin != null)
+                        {
+                            @programme.DateFin.Value.ToShortDateString();
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if(programme.Seances != null)
+                        {
+                            @programme.Seances.Count();
+                        }
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Modifier", "Programme", new { id = programme.Id })">
+                        <button type="button" class="btn btn-primary">
+                            Modifier
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        }
+    }
+}
+
+</table>
+</center>

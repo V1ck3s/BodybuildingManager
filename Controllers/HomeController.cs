@@ -52,29 +52,16 @@ public class HomeController : Controller
             return RedirectToAction("Connexion", "Identification");
         }
 
-        string pseudo = Request.Cookies["PseudoConnecte"].ToString();
+        Compte? compte = Utils.CompteUtils.AjoutePoids((float)poidsKilo,(DateTime)datePesee,Request.Cookies["PseudoConnecte"]);
 
-        using (var db = new DatabaseContext())
-        {
-            Compte? compte = db.Comptes
-                .Where(b => b.Email == pseudo)
-                .ToList().FirstOrDefault();
-
-            if (compte == null)
-            { // Compte non trouvé
-                TempData["message"] = "Erreur lors de l'ajout d'une pesée, le compte n'a pas été trouvé.";
-                return RedirectToAction("Poids");
-            }
-            else
-            { // Compte trouvé
-                Poids poids = new Poids();
-                poids.DatePoids = (DateTime)datePesee;
-                poids.Kilogramme = (float)poidsKilo;
-                compte.PoidsCompte.Add(poids);
-                //db.Comptes.Find(compte.Id).PoidsCompte.Add(poids);
-                db.SaveChanges();
-                return RedirectToAction("Poids");
-            }
+        if (compte == null)
+        { // Compte non trouvé
+            TempData["message"] = "Erreur lors de l'ajout d'une pesée, le compte n'a pas été trouvé.";
+            return RedirectToAction("Poids");
+        }
+        else
+        { // Compte trouvé
+            return RedirectToAction("Poids");
         }
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

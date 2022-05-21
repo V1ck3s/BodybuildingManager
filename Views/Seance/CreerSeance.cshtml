@@ -1,0 +1,21 @@
+@model BodybuildingManager.Models.Database.Seance
+@{
+    ViewData["Title"] = "Création d'une séance";
+}
+
+<center>
+
+    <h1>@ViewData["Title"]</h1>
+
+    @using (Html.BeginForm("CreerSeance", "Seance", FormMethod.Post)){
+        <p>Nom de la séance :</p>
+        @Html.TextBox("seanceNom", value:Model.Nom, htmlAttributes: new { required = true })
+
+        <br>
+        <br>
+        <div>
+            <input class="createButton" type="submit" value="Créer" />
+        </div>
+    }
+
+</center>

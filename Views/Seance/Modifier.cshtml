@@ -1,0 +1,52 @@
+@model BodybuildingManager.Lib.ObjetVue.ObjetModifierSeance
+@{
+    ViewData["Title"] = "Modification d'une séance";
+}
+
+<center>
+
+    <h1>@ViewData["Title"]</h1>
+
+    @using (Html.BeginForm("ModifierSeance", "Seance", FormMethod.Post)){
+        <p>Nom de la séance :</p>
+        @Html.TextBox("seanceNom", value:Model.Seance.Nom, htmlAttributes: new { required = true })
+
+        <div>
+            @Html.Hidden("idSeance",Model.Seance.Id)
+            <input class="createButton" type="submit" value="Modifier" />
+        </div>
+    }
+
+
+    <h2>Exercices de la séance :</h2>
+
+    <table class="table">
+        <tr>
+            <th>Nom</th>
+            <th>Position</th>
+            <th>Nombre de série</th>
+            <th>Nombre de répétitions</th>
+            <th>Actions</th>
+        </tr>
+
+        @foreach (var exercice in Model.ListeExercice)
+        {
+            @using (Html.BeginForm("AjouterExercice", "Seance", FormMethod.Post))
+            {
+                <tr>
+                    <td>@exercice.Nom</td>
+                    <td>@Html.TextBox("positionExercice", new { id="positionExercice",@type = "number",style = "width:100px", step="1" })</td>
+                    <td>@Html.TextBox("nombreSerie", new { id="nombreSerie",@type = "number",style = "width:100px", step="1" })</td>
+                    <td>@Html.TextBox("nombreRepetition", new { id="nombreRepetition",@type = "number",style = "width:100px", step="1" })</td>
+                    <td>
+                        @Html.Hidden("idExercice",exercice.Id)
+                        @Html.Hidden("idSeance",Model.Seance.Id)
+                        <input class="ajouterButton" type="submit" value="Ajouter" />
+                    </td>
+                    
+                </tr>
+            }
+        }
+    </table>
+
+</center>

@@ -123,4 +123,71 @@ public class ProgrammeController : Controller
         }
     }
 
+    public IActionResult AjouterSeance(Guid idProgramme)
+    {
+        using(var db = new DatabaseContext())
+        {
+            Programme programme = db.Programmes
+            .Include(x=>x.Seances)
+            .FirstOrDefault(c => c.Id == idProgramme);
+
+            if (programme == null)
+            { // Compte non trouvé
+                TempData["message"] = "Erreur lors de la l'ajout d'une séance, le programme n'a pas pu être trouvé.";
+                return RedirectToAction("Index", "Programme");
+            }
+            else
+            { // Compte trouvé
+                Lib.ObjetVue.ObjetAjouterSeance ObjetAjouterSeance = new Lib.ObjetVue.ObjetAjouterSeance();
+                ObjetAjouterSeance.Programme = programme;
+                ObjetAjouterSeance.ListeSeance = db.Seances.ToList();
+                return View(ObjetAjouterSeance);
+            }
+        }
+    }
+
+    public IActionResult AjouterSeanceProgramme(Guid idSeance, Guid idProgramme)
+    {
+        using(var db = new DatabaseContext())
+        {
+            Programme programme = db.Programmes
+            .Include(x=>x.Seances)
+            .FirstOrDefault(c => c.Id == idProgramme);
+
+            if (programme == null)
+            { // Compte non trouvé
+                TempData["message"] = "Erreur lors de la l'ajout d'une séance, le programme n'a pas pu être trouvé.";
+                return RedirectToAction("Index", "Programme");
+            }
+            else
+            { // Compte trouvé
+                Seance seance = db.Seances
+                .FirstOrDefault(c => c.Id == idSeance);
+
+                if (seance == null)
+                { // Compte non trouvé
+                    TempData["message"] = "Erreur lors de la l'ajout d'une séance, la séance n'a pas pu être trouvée.";
+                    return RedirectToAction("Index", "Programme");
+                }
+                else
+                { // Compte trouvé
+
+                    if(programme.Seances.Contains(seance))
+                    {
+                        TempData["message"] = "Erreur lors de la l'ajout d'une séance, la séance est déjà associée au programme.";
+                        return RedirectToAction("Index", "Programme");
+                    }
+                    else
+                    {
+                        programme.Seances.Add(seance);
+                        db.SaveChanges();
+
+                        TempData["message"] = "La séance a bien été ajoutée au programme.";
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+        }
+    }
+
 }

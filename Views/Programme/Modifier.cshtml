@@ -31,6 +31,12 @@
 
     <h2>Séances du programme :</h2>
 
+    <a href="@Url.Action("AjouterSeance", "Programme", new { idProgramme = Model.Id })">
+        <button type="button" class="btn btn-secondary">
+            Ajouter une séance
+        </button>
+    </a>
+
     <table class="table">
         <tr>
             <th>Nom de la séance</th>

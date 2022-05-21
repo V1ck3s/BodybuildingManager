@@ -1,0 +1,48 @@
+@model BodybuildingManager.Lib.ObjetVue.ObjetAjouterSeance
+@{
+    ViewData["Title"] = "Ajouter une séance";
+}
+
+<center>
+
+    <h1>@ViewData["Title"]</h1>
+
+    <h2>Liste des séances :</h2>
+
+    <a href="@Url.Action("CreerSeance", "Seance")">
+        <button type="button" class="btn btn-primary">
+            Créer une séance
+        </button>
+    </a>
+
+    <table class="table">
+        <tr>
+            <th>Nom de la séance</th>
+            <th>Actions</th>
+        </tr>
+    @{
+        if(Model.ListeSeance != null && Model.Programme != null)
+        {
+            foreach (BodybuildingManager.Models.Database.Seance seance in Model.ListeSeance) 
+            {
+                <tr>
+                    <td>@seance.Nom</td>
+                    <td>
+                        <a href="@Url.Action("AjouterSeanceProgramme", "Programme", new { idSeance = seance.Id, idProgramme = Model.Programme.Id})">
+                            <button class="btn btn-primary">
+                                Ajouter
+                            </button>
+                        </a>
+                        <a href="@Url.Action("Modifier", "Seance", new { idSeance = seance.Id })">
+                            <button class="btn btn-primary">
+                                Modifier
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+
+    }
+
+</center>

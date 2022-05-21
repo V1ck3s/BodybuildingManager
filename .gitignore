@@ -1,0 +1,16 @@
+obj/BodybuildingManager.csproj.nuget.dgspec.json
+obj/project.assets.json
+obj/project.nuget.cache
+obj/staticwebassets.pack.sentinel
+obj/Debug/net6.0/apphost
+obj/Debug/net6.0/BodybuildingManager.csproj.AssemblyReference.cache
+obj/Debug/net6.0/BodybuildingManager.csproj.CoreCompileInputs.cache
+obj/Debug/net6.0/BodybuildingManager.dll
+obj/Debug/net6.0/BodybuildingManager.GeneratedMSBuildEditorConfig.editorconfig
+obj/Debug/net6.0/BodybuildingManager.pdb
+obj/Debug/net6.0/project.razor.json
+obj/Debug/net6.0/ref/BodybuildingManager.dll
+bin/Debug/net6.0/BodybuildingManager
+bin/Debug/net6.0/BodybuildingManager.dll
+bin/Debug/net6.0/BodybuildingManager.pdb
+bin/Debug/net6.0/ref/BodybuildingManager.dll

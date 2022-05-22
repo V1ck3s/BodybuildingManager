@@ -52,6 +52,16 @@
                         @seance.Nom
                     </td>
                     <td>
+                        <a href="@Url.Action("Modifier", "Seance", new { idSeance = seance.Id })">
+                            <button type="button" class="btn btn-primary">
+                                Modifier
+                            </button>
+                        </a>
+                        <a href="@Url.Action("RetirerSeance", "Programme", new { idProgramme = Model.Id, idSeance = seance.Id })">
+                            <button type="button" class="btn btn-danger">
+                                Retirer
+                            </button>
+                        </a>
                         
                     </td>
                 </tr>

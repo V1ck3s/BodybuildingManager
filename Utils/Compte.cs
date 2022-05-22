@@ -9,6 +9,7 @@ public class CompteUtils{
             Compte? compte = db.Comptes
             .Include(x=>x.PoidsCompte)
             .Include(x=>x.Programmes)
+            .ThenInclude(x=>x.Seances)
             .FirstOrDefault(c => c.Email == pseudo);
 
             if (compte == null) // Compte non trouvé

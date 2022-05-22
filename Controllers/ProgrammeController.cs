@@ -140,7 +140,7 @@ public class ProgrammeController : Controller
             { // Compte trouvé
                 Lib.ObjetVue.ObjetAjouterSeance ObjetAjouterSeance = new Lib.ObjetVue.ObjetAjouterSeance();
                 ObjetAjouterSeance.Programme = programme;
-                ObjetAjouterSeance.ListeSeance = db.Seances.ToList();
+                ObjetAjouterSeance.ListeSeance = db.Seances.Where(x=>x.ProgrammeId == null).ToList();
                 return View(ObjetAjouterSeance);
             }
         }
@@ -183,6 +183,50 @@ public class ProgrammeController : Controller
                         db.SaveChanges();
 
                         TempData["message"] = "La séance a bien été ajoutée au programme.";
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+        }
+    }
+
+    public IActionResult RetirerSeance(Guid idProgramme, Guid idSeance)
+    {
+        using(var db = new DatabaseContext())
+        {
+            Programme programme = db.Programmes
+            .Include(x=>x.Seances)
+            .FirstOrDefault(c => c.Id == idProgramme);
+
+            if (programme == null)
+            { // Compte non trouvé
+                TempData["message"] = "Erreur lors de la suppression de la séance du programme, le programme n'a pas pu être trouvé.";
+                return RedirectToAction("Index", "Programme");
+            }
+            else
+            { // Compte trouvé
+                Seance seance = db.Seances
+                .FirstOrDefault(c => c.Id == idSeance);
+
+                if (seance == null)
+                { // Compte non trouvé
+                    TempData["message"] = "Erreur lors de la suppression de la séance du programme, la séance n'a pas pu être trouvée.";
+                    return RedirectToAction("Index", "Programme");
+                }
+                else
+                { // Compte trouvé
+
+                    if(!programme.Seances.Contains(seance))
+                    {
+                        TempData["message"] = "Erreur lors de la suppression de la séance du programme, la séance n'est pas associée au programme.";
+                        return RedirectToAction("Index", "Programme");
+                    }
+                    else
+                    {
+                        programme.Seances.Remove(seance);
+                        db.SaveChanges();
+
+                        TempData["message"] = "La séance a bien été retirée du programme.";
                         return RedirectToAction("Index");
                     }
                 }

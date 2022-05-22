@@ -47,6 +47,10 @@ namespace BodybuildingManager.Models.Database
         public Guid Id { get; set; }
         public string Nom { get; set; } = "";
         public List<ExerciceSeance>? Exercices { get; set; }
+
+        [ForeignKey("Programme")]
+        public Guid? ProgrammeId { get; set; }
+        public virtual Programme? Programme { get; set; }
     }
 
     public class ExerciceSeance

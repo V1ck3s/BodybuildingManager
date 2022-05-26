@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Paramètres";
+}
+<center>
+    <h1>Exercices :</h1>
+    <div>
+        Injecter les exercices de base :
+        <a href="@Url.Action("InjecterExercices", "Parametre")">Exercice 1</a>
+    </div>
+    <div>
+        @using(Html.BeginForm("CreerExercice","Parametre"))
+        {
+
+            <p>Nom de l'exercice : </p>
+            @Html.TextBox("nomExercice", "");
+            <input type="submit" value="Créer" class="btn btn-primary" />
+        }
+        
+    </div>
+</center>

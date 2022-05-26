@@ -17,14 +17,46 @@
         </div>
     }
 
-
     <h2>Exercices de la séance :</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Position</th>
+                <th>Nombre de séries</th>
+                <th>Nombre de répétitions</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var exercice in Model.ListeExerciceSeance)
+            {
+                <tr>
+                    <td>@exercice.Exercice.Nom</td>
+                    <td>@Html.TextBox("positionExercice", exercice.Position, new {type="number", step="1"})</td>
+                    <td>@Html.TextBox("nombreSerieExercice", exercice.NombreSerie, new {type="number", step="1"})</td>
+                    <td>@Html.TextBox("nombreRepetitionExercice", exercice.NombreRepetition, new {type="number", step="1"})</td>
+                    <td>
+                        @using (Html.BeginForm()){
+                            @Html.Hidden("idExerciceSeance",exercice.Id)
+                            
+                            <input class="deleteButton" type="submit" value="Modifier" formaction="@Url.Action("ModifierExerciceSeance")" />
+                            <input class="deleteButton" type="submit" value="Supprimer" formaction="@Url.Action("SupprimerExerciceSeance")"/>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Exercices disponibles pour la séance :</h2>
 
     <table class="table">
         <tr>
             <th>Nom</th>
             <th>Position</th>
-            <th>Nombre de série</th>
+            <th>Nombre de séries</th>
             <th>Nombre de répétitions</th>
             <th>Actions</th>
         </tr>
@@ -35,9 +67,9 @@
             {
                 <tr>
                     <td>@exercice.Nom</td>
-                    <td>@Html.TextBox("positionExercice", new { id="positionExercice",@type = "number",style = "width:100px", step="1" })</td>
-                    <td>@Html.TextBox("nombreSerie", new { id="nombreSerie",@type = "number",style = "width:100px", step="1" })</td>
-                    <td>@Html.TextBox("nombreRepetition", new { id="nombreRepetition",@type = "number",style = "width:100px", step="1" })</td>
+                    <td>@Html.TextBox("positionExercice",1, new { id="positionExercice",@type = "number",style = "width:100px", step="1" })</td>
+                    <td>@Html.TextBox("nombreSerie",3, new { id="nombreSerie",@type = "number",style = "width:100px", step="1" })</td>
+                    <td>@Html.TextBox("nombreRepetition",10, new { id="nombreRepetition",@type = "number",style = "width:100px", step="1" })</td>
                     <td>
                         @Html.Hidden("idExercice",exercice.Id)
                         @Html.Hidden("idSeance",Model.Seance.Id)

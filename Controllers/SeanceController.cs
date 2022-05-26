@@ -42,6 +42,7 @@ public class SeanceController : Controller
                 ObjetModifierSeance objetModifierSeance = new ObjetModifierSeance();
                 objetModifierSeance.Seance = seance;
                 objetModifierSeance.ListeExercice = db.Exercices.ToList();
+                objetModifierSeance.ListeExerciceSeance = db.ExerciceSeances.ToList();
                 return View(objetModifierSeance);
             }
         }
@@ -99,7 +100,7 @@ public class SeanceController : Controller
     }
 
     [HttpPost]
-    public IActionResult AjouterExercice(Guid idSeance, Guid idExercice, int nombreRepetitions, int nombreSeries, int positionExercice)
+    public IActionResult AjouterExercice(Guid idSeance, Guid idExercice, int nombreRepetition, int nombreSerie, int positionExercice)
     {
         using (var db = new DatabaseContext())
         {
@@ -109,12 +110,12 @@ public class SeanceController : Controller
             if (seance == null)
             {
                 TempData["message"] = "Erreur lors de l'ajout de l'exercice, la séance n'a pas pu être trouvée.";
-                return RedirectToAction("Index", "Seance");
+                return RedirectToAction("Index", "Programme");
             }
             else if (exercice == null)
             {
                 TempData["message"] = "Erreur lors de l'ajout de l'exercice, l'exercice n'a pas pu être trouvé.";
-                return RedirectToAction("Index", "Seance");
+                return RedirectToAction("Index", "Programme");
             }
             else
             {
@@ -122,15 +123,43 @@ public class SeanceController : Controller
                 exerciceSeance.Id = Guid.NewGuid();
                 exerciceSeance.Exercice = exercice;
                 exerciceSeance.Seance = seance;
-                exerciceSeance.NombreRepetition = nombreRepetitions;
-                exerciceSeance.NombreSerie = nombreSeries;
+                exerciceSeance.NombreRepetition = nombreRepetition;
+                exerciceSeance.NombreSerie = nombreSerie;
                 exerciceSeance.Position = positionExercice;
 
                 db.Add(exerciceSeance);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Seance");
+                return RedirectToAction("Index", "Programme");
             }
         }
+    }
+
+    [HttpPost]
+    public IActionResult SupprimerExerciceSeance(Guid idExerciceSeance)
+    {
+        using (var db = new DatabaseContext())
+        {
+            ExerciceSeance? exerciceSeance = db.ExerciceSeances.FirstOrDefault(x => x.Id == idExerciceSeance);
+
+            if (exerciceSeance == null)
+            {
+                TempData["message"] = "Erreur lors de la suppression de l'exercice, l'exercice n'a pas pu être trouvé.";
+                return RedirectToAction("Index", "Programme");
+            }
+            else
+            {
+                db.Remove(exerciceSeance);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Programme");
+            }
+        }
+    }
+
+
+    [HttpPost]
+    public IActionResult ModifierExerciceSeance(Guid idExerciceSeance, int nombreRepetitionExercice, int nombreSerieExercice, int positionExercice){
+        // A faire
+        return View();
     }
 
 }

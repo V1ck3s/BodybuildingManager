@@ -7,6 +7,9 @@
     <p>Email / Nom de compte : @Model.Email</p>
     <p>Id du compte : @Model.Id</p>
     <p>Date de début du programme actuel : @Model.Programmes.FirstOrDefault(x=>x.EstActif)?.DateDebut</p>
+    <a href="@Url.Action("Index", "Parametre")">
+        <button class="btn btn-secondary">Paramètres</button>
+    </a>
     @using (Html.BeginForm("Deconnexion", "Identification", FormMethod.Get))
     {
         <input type="submit" name="submit" value="Se déconnecter" />

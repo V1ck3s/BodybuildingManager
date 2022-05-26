@@ -7,9 +7,9 @@ using BodybuildingManager.Models.Database;
 namespace BodybuildingManager.Models.ExerciceData
 {
 
-    public class InsertExerciceData
+    public static class InsertExerciceData
     {
-        public void InsertExercice(Exercice exercice)
+        public static void InsertExercice(Exercice exercice)
         {
             using(var db = new DatabaseContext())
             {
@@ -19,7 +19,7 @@ namespace BodybuildingManager.Models.ExerciceData
             
         }
 
-        public void InsertExercice(List<Exercice> exercices){
+        public static void InsertExercice(List<Exercice> exercices){
             using(var db = new DatabaseContext())
             {
                 db.Exercices.AddRange(exercices);
@@ -27,7 +27,7 @@ namespace BodybuildingManager.Models.ExerciceData
             }
         }
 
-        public void InsertBaseExercice(){
+        public static void InsertBaseExercice(){
             List<Exercice> exercices = new List<Exercice>{
                 new Exercice{
                     Id = Guid.NewGuid(),
@@ -105,6 +105,7 @@ namespace BodybuildingManager.Models.ExerciceData
                 },
 
             };
+            InsertExercice(exercices);
         }
         
     }

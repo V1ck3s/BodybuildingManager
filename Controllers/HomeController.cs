@@ -44,7 +44,7 @@ public class HomeController : Controller
     {
         if (poidsKilo is null || datePesee is null)
         {
-            return RedirectToAction("Poids");
+            return RedirectToAction("Index");
         }
 
         if (String.IsNullOrEmpty(Request.Cookies["PseudoConnecte"]))
@@ -57,11 +57,11 @@ public class HomeController : Controller
         if (compte == null)
         { // Compte non trouvé
             TempData["message"] = "Erreur lors de l'ajout d'une pesée, le compte n'a pas été trouvé.";
-            return RedirectToAction("Poids");
+            return RedirectToAction("Index");
         }
         else
         { // Compte trouvé
-            return RedirectToAction("Poids");
+            return RedirectToAction("Index");
         }
     }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -76,6 +76,6 @@ public class HomeController : Controller
             db.Poids.Remove(poids);
             db.SaveChanges();
         }
-        return RedirectToAction("Poids");
+        return RedirectToAction("Index");
     }
 }

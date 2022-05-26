@@ -6,7 +6,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>Veuillez indiquer votre poids et la date si le poids correspond à une autre date que maintenant :</p>
-@using (Html.BeginForm("PeseePoids", "Home", FormMethod.Post))
+@using (Html.BeginForm("PeseePoids", "Poids", FormMethod.Post))
 {
 
     @Html.AntiForgeryToken()
@@ -38,7 +38,12 @@
 
 <br>
 <br>
-
+<div>
+    Dernière année : @(Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddYears(-1)).Average(x => x.Kilogramme)) Kg
+    Dernier mois : @(Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddMonths(-1)).Average(x => x.Kilogramme)) Kg
+    Dernière semaine : @Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddDays(-7)).Average(x => x.Kilogramme)) Kg
+    Dernier jour : @Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddDays(-1)).Average(x => x.Kilogramme)) Kg
+</div>
 <table class="table">
     <tr>
         <th>Poids</th>
@@ -55,7 +60,7 @@
             @poids.DatePoids.ToString("dd/MM/yyyy HH:mm")
         </td>
         <td>
-            @Html.ActionLink("Supprimer", "SupprimerPoids", new { idPoids=poids.Id })
+            @Html.ActionLink("Supprimer", "SupprimerPoids", new { idPoids=poids.Id }, htmlAttributes: new { onclick = "return confirm ('Êtes-vous sûr de vouloir supprimer cette pesée ?');" })
         </td>
     </tr>
 }

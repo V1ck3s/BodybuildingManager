@@ -39,10 +39,55 @@
 <br>
 <br>
 <div>
-    Dernière année : @(Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddYears(-1)).Average(x => x.Kilogramme)) Kg
-    Dernier mois : @(Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddMonths(-1)).Average(x => x.Kilogramme)) Kg
-    Dernière semaine : @Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddDays(-7)).Average(x => x.Kilogramme)) Kg
-    Dernier jour : @Model.ListePoids.Where(x => x.DatePoids > DateTime.Now.AddDays(-1)).Average(x => x.Kilogramme)) Kg
+    @{
+        List<BodybuildingManager.Models.Database.Poids> derniereAnnee = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddYears(-1)).ToList();
+        List<BodybuildingManager.Models.Database.Poids> dernierMois = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddMonths(-1)).ToList();
+        List<BodybuildingManager.Models.Database.Poids> derniereSemaine = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddDays(-7)).ToList();
+        List<BodybuildingManager.Models.Database.Poids> dernierJour = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddDays(-1)).ToList();
+
+        List<BodybuildingManager.Models.Database.Poids> avantDerniereAnnee = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddYears(-2) && x.DatePoids < DateTime.Now.AddYears(-1)).ToList();
+        List<BodybuildingManager.Models.Database.Poids> avantDernierMois = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddMonths(-2) && x.DatePoids < DateTime.Now.AddMonths(-1)).ToList();
+        List<BodybuildingManager.Models.Database.Poids> avantDerniereSemaine = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddDays(-14) && x.DatePoids < DateTime.Now.AddDays(-7)).ToList();
+        List<BodybuildingManager.Models.Database.Poids> avantDernierJour = Model.ListePoids.Where(x=>x.DatePoids > DateTime.Now.AddDays(-2) && x.DatePoids < DateTime.Now.AddDays(-1)).ToList();
+
+        if(derniereAnnee.Count != 0)
+        {
+            string avantDernierAnneePourcent = "";
+            if(avantDerniereAnnee.Count != 0)
+            {
+                var pourcent = (derniereAnnee.Average(x=>x.Kilogramme)*100/avantDerniereAnnee.Average(x=>x.Kilogramme))-100;
+                avantDernierAnneePourcent = (pourcent >= 0 ? "+" : "") + Math.Round(pourcent,1) +"%";
+            }
+             <p>Dernière année : @derniereAnnee.Average(x=>x.Kilogramme) Kg @avantDernierAnneePourcent</p>
+        }
+        if(dernierMois.Count != 0)
+        {
+            string avantDernierMoisPourcent = "";
+            if(avantDernierMois.Count != 0){
+                var pourcent = (dernierMois.Average(x=>x.Kilogramme)*100/avantDernierMois.Average(x=>x.Kilogramme))-100;
+                avantDernierMoisPourcent = (pourcent >= 0 ? "+" : "") + Math.Round(pourcent,1) +"%";
+            }
+             <p>Dernier mois : @dernierMois.Average(x=>x.Kilogramme) Kg @avantDernierMoisPourcent</p>
+        }
+        if(derniereSemaine.Count != 0)
+        {
+            string avantDerniereSemainePourcent = "";
+            if(avantDerniereSemaine.Count != 0){
+                var pourcent = (derniereSemaine.Average(x=>x.Kilogramme)*100/avantDerniereSemaine.Average(x=>x.Kilogramme))-100;
+                avantDerniereSemainePourcent = (pourcent >= 0 ? "+" : "") + Math.Round(pourcent,1) +"%";
+            }
+             <p>Dernière semaine : @derniereSemaine.Average(x=>x.Kilogramme) Kg @avantDerniereSemainePourcent</p>
+        }
+        if(dernierJour.Count != 0)
+        {
+            string avantDernierJourPourcent = "";
+            if(avantDernierJour.Count != 0){
+                var pourcent = (dernierJour.Average(x=>x.Kilogramme)*100/avantDernierJour.Average(x=>x.Kilogramme))-100;
+                avantDernierJourPourcent = (pourcent >= 0 ? "+" : "") + Math.Round(pourcent,1) +"%";
+            }
+             <p>Dernier jour : @dernierJour.Average(x=>x.Kilogramme) Kg @avantDernierJourPourcent</p>
+        }
+    }
 </div>
 <table class="table">
     <tr>

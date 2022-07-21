@@ -39,6 +39,9 @@ Il permet facilement d'enregistrer votre suivis de poids, ainsi que les différe
 Étant donné que ce projet a été développé uniquement pour moi et que je n'avais pas beaucoup de temps pour le faire, j'aimerais indiquer que ce projet n'a pas été développé sérieusement et que le code est très moche (mélange français/anglais, aucune convention de nommage, nombre magique...).
 Aucun refactorisation du code n'est prévu pour ce projet, l'objectif serait plutôt de repartir sur un nouveau projet en Blazor si celui-ci devait évoluer.
 
+#### Concernant la base de données
+
+Le code n'est pas prévu pour générer automatiquement la base de données. Il se peut qu'il faille créer soit même le fichier de la base de données, la structure elle se fera automatiquement. Pour cela il faut créer un fichier "database.db" à la racine du projet.
 
 ## FAQ
 

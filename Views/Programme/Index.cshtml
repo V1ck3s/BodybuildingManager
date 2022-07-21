@@ -5,70 +5,91 @@
 <center>
 <h1>@ViewData["Title"]</h1>
 
+@if (string.IsNullOrEmpty(ViewBag.Message) == false)
+{
+    <div style="background-color: #b94a48;width: auto;border: #da4f49;border-style: solid;color: #fff;">
+        @ViewBag.Message
+    </div>
+}
+
 <div>
-    <input type="button" value="Créer un programme" onclick="@("window.location.href='" + @Url.Action("CreerProgramme", "Programme") + "'");" />
+    <input class="btn btn-primary" type="button" value="Créer un programme" onclick="@("window.location.href='" + @Url.Action("CreerProgramme", "Programme") + "'");" />
 </div>
 
 
 <p>Programme actif :</p>
 <div>
-    @(Model?.ListeProgramme?.FirstOrDefault(x => x.EstActif == true)?.Nom ?? "Aucun programme actif")
+    <b>
+        @(Model?.ListeProgramme?.FirstOrDefault(x => x.EstActif == true)?.Nom ?? "Aucun programme actif")
+    </b>
 </div>
 
 <br>
+<div class="table-responsive">
 
-<table class="table">
-    <tr>
-        <th>Nom</th>
-        <th>Date de commencement</th>
-        <th>Date de fin</th>
-        <th>Nombre de séance</th>
-        <th>Actions</th>
-    </tr>
+    <table class="table table-striped table-bordered ">
+        <tr>
+            <th>Nom</th>
+            <th>Date de commencement</th>
+            <th>Date de fin</th>
+            <th>Nombre de séance</th>
+            <th>Actions</th>
+        </tr>
 
-@{
-    if(Model.ListeProgramme != null)
-    {
-        foreach (BodybuildingManager.Models.Database.Programme programme in Model.ListeProgramme.OrderByDescending(x => x.DateDebut)) 
+    @{
+        if(Model.ListeProgramme != null)
         {
-            <tr>
-                <td>@programme.Nom</td>
-                <td>
-                    @{
-                        if(programme.DateDebut != null)
-                        {
-                            @programme.DateDebut.Value.ToShortDateString();
+            foreach (BodybuildingManager.Models.Database.Programme programme in Model.ListeProgramme.OrderByDescending(x => x.DateDebut)) 
+            {
+                <tr>
+                    <td>@programme.Nom</td>
+                    <td>
+                        @{
+                            if(programme.DateDebut != null)
+                            {
+                                @programme.DateDebut.Value.ToShortDateString();
+                            }
                         }
-                    }
-                    
-                </td>
-                <td>
-                    @{
-                        if(programme.DateFin != null)
-                        {
-                            @programme.DateFin.Value.ToShortDateString();
+                        
+                    </td>
+                    <td>
+                        @{
+                            if(programme.DateFin != null)
+                            {
+                                @programme.DateFin.Value.ToShortDateString();
+                            }
                         }
-                    }
-                </td>
-                <td>
-                    @{
-                        if(programme.Seances != null)
-                        {
-                            @programme.Seances.Count();
+                    </td>
+                    <td>
+                        @{
+                            if(programme.Seances != null)
+                            {
+                                @programme.Seances.Count();
+                            }
                         }
-                    }
-                </td>
-                <td>
-                    <a href="@Url.Action("Modifier", "Programme", new { id = programme.Id })">
-                        <button type="button" class="btn btn-primary">
-                            Modifier
-                        </button>
-                    </a>
-                </td>
-            </tr>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Modifier", "Programme", new { id = programme.Id })">
+                            <button type="button" class="btn btn-primary">
+                                Modifier
+                            </button>
+                        </a>
+                        <a href="@Url.Action("Dupliquer", "Programme", new { idProgramme = programme.Id })">
+                            <button type="button" class="btn btn-primary">
+                                Dupliquer
+                            </button>
+                        </a>
+                        <a href="@Url.Action("Supprimer", "Programme", new { idProgramme = programme.Id })" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce programme ? Ceci est définitif et vous ne pourrez pas l\' annuler ?')">
+                            <button type="button" class="btn btn-danger">
+                                Supprimer
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            }
         }
     }
-}
 
-</table>
+    </table>
+</div>
 </center>

@@ -94,7 +94,7 @@ public class SeanceController : Controller
                 
                 db.Seances.Add(seance);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Programmes");
+                return RedirectToAction("Index", "Programme");
             }
         }
     }

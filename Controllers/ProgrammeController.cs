@@ -57,6 +57,13 @@ public class ProgrammeController : Controller
             }
             else
             { // Compte trouvé
+
+                if(programmeActuel){
+                    foreach(Programme p in compte.Programmes){
+                        p.EstActif = false;
+                    }
+                }
+
                 Programme programme = new Programme();
                 programme.Nom = programmeNom;
                 programme.DateDebut = programmeDateDebut;
@@ -110,10 +117,18 @@ public class ProgrammeController : Controller
             }
             else
             { // Compte trouvé
+                
+                if(programmeActuel){
+                    foreach(Programme p in db.Programmes){
+                        p.EstActif = false;
+                    }
+                }
+
                 programme.Nom = programmeNom;
                 programme.DateDebut = programmeDateDebut;
                 programme.DateFin = programmeDateFin;
                 programme.EstActif = programmeActuel;
+
 
                 db.SaveChanges();
 
@@ -229,6 +244,100 @@ public class ProgrammeController : Controller
                         TempData["message"] = "La séance a bien été retirée du programme.";
                         return RedirectToAction("Index");
                     }
+                }
+            }
+        }
+    }
+
+    public IActionResult Dupliquer(Guid idProgramme)
+    {
+        using(var db = new DatabaseContext())
+        {
+            Programme programme = db.Programmes
+            .Include(x=>x.Seances)
+            .FirstOrDefault(c => c.Id == idProgramme);
+
+            Compte? compte = db.Comptes
+            .Include(x=>x.Programmes)
+            .FirstOrDefault(c => c.Email == Request.Cookies["PseudoConnecte"]);
+
+            if(compte == null)
+            {
+                TempData["message"] = "Erreur lors de la duplication du programme, le compte n'a pas pu être trouvé.";
+                return RedirectToAction("Index", "Programme");
+            }
+            else
+            {
+                if (programme == null)
+                { // Compte non trouvé
+                    TempData["message"] = "Erreur lors de la duplication du programme, le programme n'a pas pu être trouvé.";
+                    return RedirectToAction("Index", "Programme");
+                }
+                else
+                { // Compte trouvé
+                    Programme programmeDuplique = new Programme();
+                    programmeDuplique.Nom = programme.Nom;
+                    programmeDuplique.DateDebut = programme.DateDebut;
+                    programmeDuplique.DateFin = programme.DateFin;
+                    programmeDuplique.EstActif = false;
+                    programmeDuplique.Seances = new List<Seance>();
+                    programmeDuplique.Id = Guid.NewGuid();
+                    
+                    foreach(Seance s in programme.Seances){
+                        Seance seance = new Seance();
+                        seance.Nom = s.Nom;
+                        seance.ProgrammeId = programmeDuplique.Id;
+                        seance.Programme = programmeDuplique;
+                        seance.Exercices = s.Exercices;
+                        seance.Id = Guid.NewGuid();
+                        programmeDuplique.Seances.Add(seance);
+                    }
+                    compte.Programmes.Add(programmeDuplique);
+                    
+                    db.SaveChanges();
+
+                    TempData["message"] = "Le programme a bien été dupliqué.";
+                    return RedirectToAction("Index");
+                }
+            }
+
+            
+        }
+    }
+
+    public IActionResult Supprimer(Guid idProgramme)
+    {
+        using(var db = new DatabaseContext())
+        {
+            Programme programme = db.Programmes
+            .Include(x=>x.Seances)
+            .FirstOrDefault(c => c.Id == idProgramme);
+
+            Compte? compte = db.Comptes
+            .Include(x=>x.Programmes)
+            .FirstOrDefault(c => c.Email == Request.Cookies["PseudoConnecte"]);
+
+            if(compte == null)
+            {
+                TempData["message"] = "Erreur lors de la suppression du programme, le compte n'a pas pu être trouvé.";
+                return RedirectToAction("Index", "Programme");
+            }
+            else
+            {
+                if (programme == null)
+                { // Compte non trouvé
+                    TempData["message"] = "Erreur lors de la suppression du programme, le programme n'a pas pu être trouvé.";
+                    return RedirectToAction("Index", "Programme");
+                }
+                else
+                { // Compte trouvé
+                    foreach(Seance s in programme.Seances){
+                        db.Seances.Remove(s);
+                    }
+                    db.Programmes.Remove(programme);
+                    db.SaveChanges();
+                    TempData["message"] = "Le programme a bien été supprimé.";
+                    return RedirectToAction("Index");
                 }
             }
         }

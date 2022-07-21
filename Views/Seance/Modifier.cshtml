@@ -13,13 +13,13 @@
 
         <div>
             @Html.Hidden("idSeance",Model.Seance.Id)
-            <input class="createButton" type="submit" value="Modifier" />
+            <input class="btn btn-primary" type="submit" value="Modifier" />
         </div>
     }
 
     <h2>Exercices de la séance :</h2>
 
-    <table class="table">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>Nom</th>
@@ -52,7 +52,7 @@
 
     <h2>Exercices disponibles pour la séance :</h2>
 
-    <table class="table">
+    <table class="table table-striped table-bordered">
         <tr>
             <th>Nom</th>
             <th>Position</th>

@@ -5,6 +5,13 @@
 <center>
 <h1>@ViewData["Title"]</h1>
 
+@if (string.IsNullOrEmpty(ViewBag.Message) == false)
+{
+    <div style="background-color: #b94a48;width: auto;border: #da4f49;border-style: solid;color: #fff;">
+        @ViewBag.Message
+    </div>
+}
+
 <p>Veuillez indiquer votre poids et la date si le poids correspond à une autre date que maintenant :</p>
 @using (Html.BeginForm("PeseePoids", "Poids", FormMethod.Post))
 {
@@ -33,7 +40,7 @@
 </div>
     <div class="clear"></div>
     <br>
-    <div><input class="postbutton" type="submit" value="Ajouter" /></div>
+    <div><input class="postbutton btn btn-primary" type="submit" value="Ajouter" /></div>
 }
 
 <br>
@@ -89,7 +96,7 @@
         }
     }
 </div>
-<table class="table">
+<table class="table table-striped table-bordered">
     <tr>
         <th>Poids</th>
         <th>Date</th>

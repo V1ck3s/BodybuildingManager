@@ -18,6 +18,16 @@ Il permet facilement d'enregistrer votre suivis de poids, ainsi que les différe
 [![GPLv3 License](https://img.shields.io/github/last-commit/vic1997/BodybuildingManager?style=for-the-badge)](https://github.com/vic1997/BodybuildingManager/)
 
 
+## Docker
+
+Pour déployer l'image docker de l'application, utilisez :
+
+```
+docker run vic1997/bodybuildingmanager
+```
+
+ L'image est disponible à cette adresse :    [vic1997/bodybuildingmanager](https://hub.docker.com/r/vic1997/bodybuildingmanager)
+
 ## Fonctionnalités
 
 - Accessible depuis un PC comme un mobile.

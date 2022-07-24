@@ -42,7 +42,7 @@ public class SeanceController : Controller
                 ObjetModifierSeance objetModifierSeance = new ObjetModifierSeance();
                 objetModifierSeance.Seance = seance;
                 objetModifierSeance.ListeExercice = db.Exercices.ToList();
-                objetModifierSeance.ListeExerciceSeance = db.ExerciceSeances.ToList();
+                objetModifierSeance.ListeExerciceSeance = seance.Exercices.ToList();
                 return View(objetModifierSeance);
             }
         }

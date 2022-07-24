@@ -23,10 +23,12 @@ Il permet facilement d'enregistrer votre suivis de poids, ainsi que les différe
 Pour déployer l'image docker de l'application, utilisez :
 
 ```
-docker run vic1997/bodybuildingmanager
+docker run -v /host/database.db:/app/database.db vic1997/bodybuildingmanager
 ```
 
- L'image est disponible à cette adresse :    [vic1997/bodybuildingmanager](https://hub.docker.com/r/vic1997/bodybuildingmanager)
+Il est important de préciser un volume comportant la base de données pour garder les données à chaque extinction du container. Placez le fichier database.db préalablement téléchargé à un endroit dans la machine hôte et indiquez son emplacement direct lors de la création du volume.
+ 
+L'image est disponible à cette adresse :    [vic1997/bodybuildingmanager](https://hub.docker.com/r/vic1997/bodybuildingmanager)
 
 ## Fonctionnalités
 

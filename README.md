@@ -53,7 +53,7 @@ Aucun refactorisation du code n'est prévu pour ce projet, l'objectif serait plu
 
 #### Concernant la base de données
 
-Le code n'est pas prévu pour générer automatiquement la base de données. Il se peut qu'il faille créer soit même le fichier de la base de données, la structure elle se fera automatiquement. Pour cela il faut créer un fichier "database.db" à la racine du projet.
+Le code n'est pas prévu pour générer automatiquement la base de données. Le fichier de la base de données vierge peut-être généré avec EFCore, cependant il est également inclus à la racine du projet. Normalement elle est prête à l'emploi. Cependant, pour une utilisation avec docker, il faut le télécharger, le placer dans la machine hôte et créer un volume pointant vers ce fichier, cela est expliqué dans la partie [Docker](https://github.com/vic1997/BodybuildingManager#docker).
 
 ## FAQ
 
